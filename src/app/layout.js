@@ -1,7 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+// import { ClientInfoContext } from "./ClientInfoProvider"; // Adjust the import path as needed
+import { ClientInfoProvider } from "./ClientInfoContext";
 // components
+
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import ScrollTo from "./Components/ScrollTo";
@@ -26,10 +28,12 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
       >
-        <Header />
-        {children}
-        <ScrollTo />
-        <Footer />
+        <ClientInfoProvider>
+          <Header />
+          {children}
+          <ScrollTo />
+          <Footer />
+        </ClientInfoProvider>
       </body>
     </html>
   );

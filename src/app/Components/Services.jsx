@@ -6,6 +6,8 @@ import {
   FaBolt,
   FaFan,
   FaPlug,
+  FaCogs,
+  FaSolarPanel,
 } from "react-icons/fa";
 
 const services = [
@@ -48,6 +50,18 @@ const services = [
     description:
       "Quick and reliable socket repair services for all your needs.",
     link: "/services/socket-repairs",
+  },
+  {
+    icon: <FaCogs className="text-gray-500 text-4xl" />,
+    title: "Appliance Maintenance",
+    description: "Keep your appliances running like new with our services.",
+    link: "/services/appliance-maintenance",
+  },
+  {
+    icon: <FaSolarPanel className="text-orange-500 text-4xl" />,
+    title: "Solar Panel Installation",
+    description: "Embrace sustainability with our solar solutions.",
+    link: "/services/solar-panel-installation",
   },
 ];
 

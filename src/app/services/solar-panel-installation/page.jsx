@@ -7,52 +7,47 @@ import Link from "next/link";
 const HOW_IT_WORKS = [
   {
     num: 1,
-    title: "Consultation",
+    title: "Assessment",
     description:
-      "Discuss your fan installation needs, including the number and types of fans required.",
+      "Evaluate your energy needs and property for optimal solar panel placement.",
   },
   {
     num: 2,
-    title: "Preparation",
+    title: "Design",
     description:
-      "Ensure the electrical connections and mounting areas are ready for installation.",
+      "Create a customized solar system design tailored to your requirements.",
   },
   {
     num: 3,
     title: "Installation",
     description:
-      "Professionally install your fans, ensuring they are secure and balanced.",
+      "Install the solar panels and connect them to your power system.",
   },
   {
     num: 4,
-    title: "Testing",
+    title: "Activation",
     description:
-      "Test the fans to ensure smooth operation and proper functionality.",
+      "Activate the system and provide you with operational guidance.",
   },
 ];
 
 const clientInfo = [
   {
-    img: "/assets/testimonial5.jpg",
-    name: "Sarah T.",
+    img: "/assets/TestimonialSolar1.jpg",
+    name: "Jessica H.",
     testimonial:
-      "The team did an excellent job installing our ceiling fans. They work flawlessly!",
+      "The solar panel installation was seamless and professional. We're already saving on energy bills!",
   },
 
   {
-    img: "/assets/testimonial6.jpg",
-    name: "John D.",
+    img: "/assets/TestimonialSolar2.jpg",
+    name: "Samuel T.",
     testimonial:
-      "Professional and efficient! Our fans were installed in no time. Highly recommended!",
-  },
-  {
-    img: "/assets/testimonial7.jpg",
-    name: "Mark Ayo.",
-    testimonial:
-      "Excellent service! The team was fast, friendly, and did a fantastic job installing our lighting. Very pleased with the results!",
+      "They explained everything clearly and delivered excellent service. The system works perfectly!",
   },
 ];
-const FanInstallation = () => {
+
+const SolarPanelInstallation = () => {
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
@@ -79,20 +74,20 @@ const FanInstallation = () => {
       <motion.header
         variants={fadeIn}
         className="relative bg-cover bg-center h-96 text-center text-white"
-        style={{ backgroundImage: 'url("/assets/fan-installation-bg.jpg")' }}
+        style={{ backgroundImage: 'url("/assets/solar-installation-bg.jpg")' }}
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 flex flex-col justify-center items-center h-full">
-          <h1 className="text-4xl font-bold mb-4">Fan Installation</h1>
+          <h1 className="text-4xl font-bold mb-4">Solar Panel Installation</h1>
           <p className="text-lg mb-6">
-            Reliable and professional ceiling fan installation for your comfort
-            and convenience.
+            Harness the power of the sun with our expert solar panel
+            installation services.
           </p>
           <motion.button
             className="px-6 py-2 bg-blue-500 text-white rounded-full text-lg hover:bg-blue-600 transition"
             whileHover={{ scale: 1.05 }}
           >
-            <Link href="/contact">Schedule Installation</Link>
+            <Link href="/contact">Book installation</Link>
           </motion.button>
         </div>
       </motion.header>
@@ -103,15 +98,14 @@ const FanInstallation = () => {
         className="text-gray-700 space-y-6 mt-8"
       >
         <p>
-          Proper ceiling fan installation is essential for your safety and
-          comfort. Our experienced team ensures a seamless process, from
-          preparing the electrical connections to testing the fan for optimal
-          operation.
+          Going solar is a smart investment for your home or business. Our team
+          ensures a smooth transition to clean, renewable energy with efficient
+          and reliable installations.
         </p>
 
         {/* Benefits Section */}
         <h2 className="text-2xl font-semibold text-gray-800">
-          Why Choose Our Fan Installation Services?
+          Why Choose Our Solar Panel Installation Services?
         </h2>
         <ul className="space-y-4">
           <li className="flex items-center">
@@ -129,8 +123,7 @@ const FanInstallation = () => {
                 d="M5 13l4 4L19 7"
               />
             </svg>
-            Expert installation for all fan types, including ceiling and
-            wall-mounted fans
+            Expert consultation and tailored designs for your needs
           </li>
           <li className="flex items-center">
             <svg
@@ -147,7 +140,7 @@ const FanInstallation = () => {
                 d="M5 13l4 4L19 7"
               />
             </svg>
-            Secure and balanced mounting to prevent wobbling
+            High-quality solar panels and installation materials
           </li>
           <li className="flex items-center">
             <svg
@@ -164,13 +157,11 @@ const FanInstallation = () => {
                 d="M5 13l4 4L19 7"
               />
             </svg>
-            Guaranteed satisfaction with functional and visually appealing
-            installations
+            Reliable post-installation support and maintenance
           </li>
         </ul>
 
         {/* How It Works Section */}
-
         <h2 className="text-2xl font-semibold text-gray-800">How It Works</h2>
         <div className="space-y-4">
           {HOW_IT_WORKS.map((item, index) => (
@@ -188,7 +179,6 @@ const FanInstallation = () => {
             </div>
           ))}
         </div>
-
         {/* Testimonials Section */}
         <div className="my-8">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6">
@@ -208,14 +198,14 @@ const FanInstallation = () => {
         {/* Call to Action Section */}
         <div className="text-center mt-8">
           <p className="text-lg text-gray-600 mb-4">
-            Make your home more comfortable with our professional fan
-            installation services. Contact us today!
+            Start saving on energy costs and contribute to a greener future.
+            Contact us to install your solar panel system today!
           </p>
           <motion.button
             className="px-6 py-2 bg-blue-500 text-white rounded-full text-lg hover:bg-blue-600 transition"
             whileHover={{ scale: 1.05 }}
           >
-            <Link href="/contact">Schedule Installation</Link>
+            <Link href="/contact">Book Installation</Link>
           </motion.button>
         </div>
       </motion.article>
@@ -223,4 +213,4 @@ const FanInstallation = () => {
   );
 };
 
-export default FanInstallation;
+export default SolarPanelInstallation;

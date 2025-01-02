@@ -1,58 +1,56 @@
 "use client";
 import React from "react";
+// import React, { useContext, useEffect } from "react";
 import { motion } from "framer-motion";
+// import Testimonials from "@/app/testimonials/ApplianceMaintenanceTestimonials";
+// import { ClientInfoContext } from "@/app/ClientInfoContext";
 import ServicesTestimonials from "@/app/testimonials/ServicesTestimonials";
 import Link from "next/link";
 
 const HOW_IT_WORKS = [
   {
     num: 1,
-    title: "Consultation",
+    title: "Inspection",
     description:
-      "Discuss your fan installation needs, including the number and types of fans required.",
+      "Evaluate the condition of your appliances to identify any underlying issues.",
   },
   {
     num: 2,
-    title: "Preparation",
+    title: "Servicing",
     description:
-      "Ensure the electrical connections and mounting areas are ready for installation.",
+      "Thorough cleaning, lubrication, and adjustment to ensure smooth operation.",
   },
   {
     num: 3,
-    title: "Installation",
+    title: "Repairs",
     description:
-      "Professionally install your fans, ensuring they are secure and balanced.",
+      "Fix any identified issues with high-quality tools and genuine parts.",
   },
   {
     num: 4,
     title: "Testing",
     description:
-      "Test the fans to ensure smooth operation and proper functionality.",
+      "Test the appliances to confirm they are functioning optimally.",
   },
 ];
 
 const clientInfo = [
   {
-    img: "/assets/testimonial5.jpg",
-    name: "Sarah T.",
-    testimonial:
-      "The team did an excellent job installing our ceiling fans. They work flawlessly!",
+    img: "/assets/testimonialAppliance3.jpg",
+    name: "Jane Doe",
+    testimonial: "Outstanding service!",
   },
 
   {
-    img: "/assets/testimonial6.jpg",
-    name: "John D.",
+    img: "/assets/TestimonialAppliance2.jpg",
+    name: "David M.",
     testimonial:
-      "Professional and efficient! Our fans were installed in no time. Highly recommended!",
-  },
-  {
-    img: "/assets/testimonial7.jpg",
-    name: "Mark Ayo.",
-    testimonial:
-      "Excellent service! The team was fast, friendly, and did a fantastic job installing our lighting. Very pleased with the results!",
+      "Quick and efficient service! My washing machine and fridge are running like new again.",
   },
 ];
-const FanInstallation = () => {
+const ApplianceMaintenance = () => {
+  //   const { clientInfo, setClientInfo } = useContext(ClientInfoContext);
+
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
@@ -79,20 +77,21 @@ const FanInstallation = () => {
       <motion.header
         variants={fadeIn}
         className="relative bg-cover bg-center h-96 text-center text-white"
-        style={{ backgroundImage: 'url("/assets/fan-installation-bg.jpg")' }}
+        style={{
+          backgroundImage: 'url("/assets/appliance-maintenance-bg.jpg")',
+        }}
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 flex flex-col justify-center items-center h-full">
-          <h1 className="text-4xl font-bold mb-4">Fan Installation</h1>
+          <h1 className="text-4xl font-bold mb-4">Appliance Maintenance</h1>
           <p className="text-lg mb-6">
-            Reliable and professional ceiling fan installation for your comfort
-            and convenience.
+            Expert maintenance to prolong the lifespan of your appliances.
           </p>
           <motion.button
             className="px-6 py-2 bg-blue-500 text-white rounded-full text-lg hover:bg-blue-600 transition"
             whileHover={{ scale: 1.05 }}
           >
-            <Link href="/contact">Schedule Installation</Link>
+            <Link href="/contact">Schedule Maintenance</Link>
           </motion.button>
         </div>
       </motion.header>
@@ -103,15 +102,14 @@ const FanInstallation = () => {
         className="text-gray-700 space-y-6 mt-8"
       >
         <p>
-          Proper ceiling fan installation is essential for your safety and
-          comfort. Our experienced team ensures a seamless process, from
-          preparing the electrical connections to testing the fan for optimal
-          operation.
+          Regular appliance maintenance is essential to keep your home running
+          smoothly. Our experienced technicians ensure your appliances stay in
+          top-notch condition.
         </p>
 
         {/* Benefits Section */}
         <h2 className="text-2xl font-semibold text-gray-800">
-          Why Choose Our Fan Installation Services?
+          Why Choose Our Appliance Maintenance Services?
         </h2>
         <ul className="space-y-4">
           <li className="flex items-center">
@@ -129,8 +127,7 @@ const FanInstallation = () => {
                 d="M5 13l4 4L19 7"
               />
             </svg>
-            Expert installation for all fan types, including ceiling and
-            wall-mounted fans
+            Comprehensive servicing for all major home appliances
           </li>
           <li className="flex items-center">
             <svg
@@ -147,7 +144,7 @@ const FanInstallation = () => {
                 d="M5 13l4 4L19 7"
               />
             </svg>
-            Secure and balanced mounting to prevent wobbling
+            Preventive care to minimize the risk of breakdowns
           </li>
           <li className="flex items-center">
             <svg
@@ -164,13 +161,11 @@ const FanInstallation = () => {
                 d="M5 13l4 4L19 7"
               />
             </svg>
-            Guaranteed satisfaction with functional and visually appealing
-            installations
+            Affordable plans for regular maintenance
           </li>
         </ul>
 
         {/* How It Works Section */}
-
         <h2 className="text-2xl font-semibold text-gray-800">How It Works</h2>
         <div className="space-y-4">
           {HOW_IT_WORKS.map((item, index) => (
@@ -204,18 +199,19 @@ const FanInstallation = () => {
             </div>
           ))}
         </div>
+        {/* <Testimonials clientInfo={clientInfo} /> */}
 
         {/* Call to Action Section */}
         <div className="text-center mt-8">
           <p className="text-lg text-gray-600 mb-4">
-            Make your home more comfortable with our professional fan
-            installation services. Contact us today!
+            Extend the lifespan of your appliances with our professional
+            maintenance services. Contact us today!
           </p>
           <motion.button
             className="px-6 py-2 bg-blue-500 text-white rounded-full text-lg hover:bg-blue-600 transition"
             whileHover={{ scale: 1.05 }}
           >
-            <Link href="/contact">Schedule Installation</Link>
+            Schedule Maintenance
           </motion.button>
         </div>
       </motion.article>
@@ -223,4 +219,4 @@ const FanInstallation = () => {
   );
 };
 
-export default FanInstallation;
+export default ApplianceMaintenance;

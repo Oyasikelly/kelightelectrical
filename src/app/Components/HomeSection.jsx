@@ -64,8 +64,17 @@ export default function HomeSection() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
   };
 
+  const slideIn = {
+    hidden: { opacity: 0, x: "100%" },
+    visible: {
+      opacity: 1,
+      x: "0",
+      transition: { duration: 1.5, ease: "easeInOut" },
+    }, // Increased duration and easing
+  };
+
   return (
-    <section id="home" className="bg-gray-100 ">
+    <section id="home" className="bg-gray-100">
       {/* Authentication Form */}
       {isFormVisible && <AuthenticationForm onClose={handleCloseForm} />}
 
@@ -120,17 +129,21 @@ export default function HomeSection() {
       <div className="relative w-full h-[60vh] overflow-hidden">
         <motion.div
           className="absolute inset-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center text-white text-2xl font-semibold"
-          key={slides[currentSlide].id}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
+          key={`caption-${slides[currentSlide].id}`} // Unique key for caption
+          initial="hidden"
+          animate="visible"
+          variants={fadeIn}
         >
           {slides[currentSlide].caption}
         </motion.div>
-        <img
+        <motion.img
           src={slides[currentSlide].src}
           alt={slides[currentSlide].alt}
           className="w-full h-full object-cover"
+          key={`image-${slides[currentSlide].id}`} // Unique key for image
+          initial="hidden"
+          animate="visible"
+          variants={slideIn}
         />
         {/* Navigation Buttons */}
         <button
