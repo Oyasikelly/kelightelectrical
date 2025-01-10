@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import { supabase } from "@/lib/supabase";
 
 const ThankYou = () => {
   return (
@@ -39,7 +40,7 @@ const ContactPage = () => {
   });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
-
+  const [errorMsg, setErrorMsg] = useState(null);
   // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -70,14 +71,36 @@ const ContactPage = () => {
     e.preventDefault();
     if (validateForm()) {
       setSubmitted(true); // Show thank-you component
-      setFormData({ name: "", email: "", message: "" }); // Reset form
-
+      submitContact();
       // Reset after 10 seconds
       setTimeout(() => {
+        setFormData({ name: "", email: "", message: "" }); // Reset form
         setSubmitted(false); // Hide thank-you component
       }, 10000); // 10 seconds
     }
   };
+
+  async function submitContact() {
+    console.log(formData);
+    try {
+      const { data, error } = await supabase.from("contacts").insert({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+      });
+      // .select();
+
+      // if (data) {
+      //   setSuccessfull(true);
+      //   console.log(data);
+      // }
+    } catch (error) {
+      setErrorMsg("An error occured!");
+      // console.log(error);
+    } finally {
+      setSuccessfull(false);
+    }
+  }
 
   return (
     <div className="container mx-auto p-6 lg:p-12 space-y-16">
@@ -175,6 +198,7 @@ const ContactPage = () => {
               >
                 Send Message
               </button>
+              {errorMsg && <p className="text-red-400">{errorMsg}</p>}
             </form>
           </motion.div>
 
@@ -190,7 +214,7 @@ const ContactPage = () => {
               <FaPhoneAlt className="text-blue-600 text-3xl" />
               <div className="text-start">
                 <h3 className="text-lg font-semibold text-gray-700">Phone</h3>
-                <p className="text-gray-600">+234 812 345 6789</p>
+                <p className="text-gray-600">+234 906 831 8254</p>
               </div>
             </div>
             {/* Email */}
@@ -198,7 +222,7 @@ const ContactPage = () => {
               <FaEnvelope className="text-green-600 text-3xl" />
               <div className="text-start">
                 <h3 className="text-lg font-semibold text-gray-700">Email</h3>
-                <p className="text-gray-600">KelightElectrical@gmail.com</p>
+                <p className="text-gray-600">Kelightelectrical@gmail.com</p>
               </div>
             </div>
             {/* Address */}

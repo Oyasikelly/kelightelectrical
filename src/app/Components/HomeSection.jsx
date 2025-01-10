@@ -8,6 +8,7 @@ import AuthenticationForm from "./AuthenticationForm";
 import Services from "./Services";
 import Testimonials from "./Testimonials";
 import BlogPostsSection from "./Blogs";
+import { supabase } from "@/lib/supabase";
 
 export default function HomeSection() {
   const slides = [
@@ -33,13 +34,12 @@ export default function HomeSection() {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isFormVisible, setFormVisible] = useState(false);
-  const [isSignedUp, setSignedUp] = useState(false);
 
-  // Check if the user is already signed up
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    setSignedUp(!!user); // If user exists in local storage, they are signed up
-  }, []);
+  // // Check if the user is already signed up
+  // useEffect(() => {
+  //   const user = localStorage.getItem("user");
+  //   setSignedUp(!!user); // If user exists in local storage, they are signed up
+  // }, []);
 
   // Automatically change slide every 5 seconds
   useEffect(() => {
@@ -103,16 +103,14 @@ export default function HomeSection() {
             excellence.
           </motion.p>
           <div className="mt-8 flex justify-center space-x-4">
-            {!isSignedUp && (
-              <motion.button
-                onClick={handleSignUpClick}
-                className="bg-blue-400 text-white py-3 px-6 rounded-md shadow-md hover:bg-blue-700 transition"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                Sign Up
-              </motion.button>
-            )}
+            <motion.button
+              onClick={handleSignUpClick}
+              className="bg-blue-400 text-white py-3 px-6 rounded-md shadow-md hover:bg-blue-700 transition"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              Sign Up
+            </motion.button>
             <motion.a
               href="/services"
               className="bg-gray-300 text-gray-700 py-3 px-6 rounded-md shadow-md hover:bg-gray-400 transition"

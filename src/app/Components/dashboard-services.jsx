@@ -1,9 +1,32 @@
 // Services Component for KelightElectrical Dashboard
 // Animated and User-Friendly
 
+// Rating Component
+const Rating = ({ rating, onRatingChange }) => {
+  return (
+    <div className="flex justify-center items-center mb-4">
+      {[...Array(5)].map((_, index) => (
+        <motion.div
+          key={index}
+          className="cursor-pointer"
+          whileHover={{ scale: 1.2 }}
+          onClick={() => onRatingChange(index + 1)}
+        >
+          <FaStar
+            className={`text-2xl ${
+              index < rating ? "text-yellow-500" : "text-gray-400"
+            }`}
+          />
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
+  FaStar,
   FaLightbulb,
   FaWrench,
   FaTools,
@@ -87,6 +110,7 @@ const services = [
 
 const Services = ({ handleLinkClick }) => {
   const [selectedService, setSelectedService] = useState(null);
+  const [serviceRating, setServiceRating] = useState(0);
 
   const containerVariants = {
     hidden: { opacity: 0, scale: 0.95 },
@@ -184,6 +208,9 @@ const Services = ({ handleLinkClick }) => {
             <p className="text-gray-600 mb-6">
               {selectedService.testimonialWriteup}
             </p>
+
+            <Rating rating={serviceRating} onRatingChange={setServiceRating} />
+
             <form className="text-left mb-4">
               <label
                 htmlFor="testimonial"

@@ -1,8 +1,20 @@
 import React from "react";
 import { FaSignOutAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { supabase } from "@/lib/supabase";
 
-const Logout = ({ onLogout }) => {
+const Logout = () => {
+  const handleSignOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+
+      // Redirect to the login page
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Error signing out:", error.message);
+    }
+  };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-100 to-gray-200">
       <div className="flex flex-col items-center justify-center bg-gradient-to-r from-red-100 to-pink-200 p-8 rounded-lg shadow-lg max-w-sm">
@@ -25,7 +37,7 @@ const Logout = ({ onLogout }) => {
           className="flex space-x-4 mt-6"
         >
           <button
-            onClick={onLogout}
+            onClick={handleSignOut}
             className="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 transform hover:scale-105"
           >
             <FaSignOutAlt className="mr-2 text-lg" />

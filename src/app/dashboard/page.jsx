@@ -164,6 +164,7 @@ const Dashboard = () => {
         <SheetContent
           position="left" // Ensure this is set to "left" so it slides from the left side
           className="bg-blue-400 text-white p-6 w-64 shadow-lg flex flex-col space-y-6"
+          aria-describedby={undefined}
         >
           <SheetTitle />
           <ul className="text-xl">
