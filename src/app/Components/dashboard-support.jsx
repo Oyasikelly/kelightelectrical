@@ -1,15 +1,68 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaPaperPlane } from "react-icons/fa";
+import { data } from "react-router-dom";
 
 const SupportAndHelp = () => {
   const [isFAQOpen, setIsFAQOpen] = useState(false);
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
   const toggleFAQ = () => setIsFAQOpen(!isFAQOpen);
   const toggleContactForm = () => setIsContactFormOpen(!isContactFormOpen);
   const toggleFeedback = () => setIsFeedbackOpen(!isFeedbackOpen);
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required.";
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid.";
+    }
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (validateForm()) {
+      setSubmitted(true);
+      insertData();
+    }
+  }
+
+  const insertData = async () => {
+    const { data, error } = await supabase.auth.getSession();
+    console.log(data);
+    if (data) {
+      const { error } = await supabase.from("auth contacts").insert({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message, // Other data fields
+        user_id: data.user.id, // Link data to the authenticated user
+      });
+      if (error) {
+        console.error("Error inserting data:", error);
+      } else {
+        console.log("Data inserted successfully!");
+      }
+    } else {
+      console.error("No authenticated user!");
+    }
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -124,6 +177,7 @@ const SupportAndHelp = () => {
         <AnimatePresence>
           {isContactFormOpen && (
             <motion.form
+              onSubmit={insertUser}
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
@@ -132,16 +186,19 @@ const SupportAndHelp = () => {
               <input
                 type="text"
                 placeholder="Your Name"
+                value={formData.name}
                 className="w-full p-3 border rounded-lg"
               />
               <input
                 type="email"
                 placeholder="Your Email"
+                value={formData.email}
                 className="w-full p-3 border rounded-lg"
               />
               <textarea
                 placeholder="Your Message"
                 rows="4"
+                value={formData.message}
                 className="w-full p-3 border rounded-lg"
               ></textarea>
               <button
@@ -150,6 +207,8 @@ const SupportAndHelp = () => {
               >
                 Send Message <FaPaperPlane className="inline ml-2" />
               </button>
+
+              {submitted ? <p>submitted!</p> : <p>An error occured</p>}
             </motion.form>
           )}
         </AnimatePresence>

@@ -72,6 +72,7 @@ const ContactPage = () => {
     if (validateForm()) {
       setSubmitted(true); // Show thank-you component
       submitContact();
+      insertData();
       // Reset after 10 seconds
       setTimeout(() => {
         setFormData({ name: "", email: "", message: "" }); // Reset form
@@ -83,7 +84,7 @@ const ContactPage = () => {
   async function submitContact() {
     console.log(formData);
     try {
-      const { data, error } = await supabase.from("contacts").insert({
+      const { data, error } = await supabase.from("public contacts").insert({
         name: formData.name,
         email: formData.email,
         message: formData.message,

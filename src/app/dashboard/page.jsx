@@ -65,7 +65,7 @@ const Dashboard = () => {
   const renderContent = () => {
     switch (activeLink) {
       case "overview":
-        return <Overview />;
+        return <Overview onProfile={handleLinkClick} />;
       case "services":
         return (
           <div>

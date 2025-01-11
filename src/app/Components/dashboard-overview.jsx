@@ -16,7 +16,7 @@ import {
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const Overview = () => {
+const Overview = ({ onProfile }) => {
   const stats = [
     {
       title: "Total Requests",
@@ -110,15 +110,29 @@ const Overview = () => {
       variants={containerVariants}
       className="p-6 bg-white shadow-md rounded-r-0  rounded-xl lg:rounded-none lg:rounded-r-[1rem] "
     >
-      <motion.h2
-        initial={{ x: -100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="text-2xl font-bold mb-6 text-gray-800"
-      >
-        Overview
-      </motion.h2>
-
+      <div className="flex justify-between items-center">
+        <motion.h2
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-2xl font-bold mb-6 text-gray-800"
+        >
+          Overview
+        </motion.h2>
+        <div className="flex gap-3 items-center justify-center">
+          <motion.span>@exampleemail.com</motion.span>
+          <div
+            onClick={() => onProfile("account_settings")}
+            className="cursor-pointer w-[50px] h-[50px] rounded-[50%] border-4 border-blue-400"
+          >
+            <img
+              className="w-full h-full rounded-[50%]"
+              src="/assets/testimonial3.jpg"
+              alt="image"
+            />
+          </div>
+        </div>
+      </div>
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

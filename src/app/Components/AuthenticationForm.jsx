@@ -144,7 +144,7 @@ const AuthenticationForm = ({ onClose }) => {
       }
       if (error) {
         console.log(error);
-        setErrorMessage("Unvalidated user login information");
+        setErrorMessage("Unable to sign you in");
       }
     } catch (error) {
     } finally {
