@@ -102,6 +102,7 @@ const AuthenticationForm = ({ onClose }) => {
           .upsert({
             id: data.user.id, // Associate the name with the user's ID
             customer_name: formData,
+            {onConflict:["id"]}
           });
 
         if (profileError) setErrorMessage("An unknown error occurred.");
@@ -113,7 +114,7 @@ const AuthenticationForm = ({ onClose }) => {
         );
         setShowSuccess(true);
         setTimeout(() => {
-          router.refresh();
+          router.push("/");
         }, 6000);
       }
     } catch (error) {
