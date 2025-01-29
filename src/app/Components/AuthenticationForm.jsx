@@ -99,10 +99,9 @@ const AuthenticationForm = ({ onClose }) => {
       if (data.user) {
         const { error: profileError } = await supabase
           .from("customer names") // Replace 'profiles' with your table name
-          .upsert({
+          .insert({
             id: data.user.id, // Associate the name with the user's ID
             customer_name: formData,
-            {onConflict:["id"]}
           });
 
         if (profileError) setErrorMessage("An unknown error occurred.");
