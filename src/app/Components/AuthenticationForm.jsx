@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import SuccessMessage from "./SuccessMessage";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "./../../lib/supabase";
 
 const AuthenticationForm = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -88,20 +88,22 @@ const AuthenticationForm = ({ onClose }) => {
   // };
 
   const handleSignUp = async (e) => {
+    console.log(formData);
     e.preventDefault();
     try {
       setLoading(true);
-      const { data } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
       });
 
+      console.log(error);
       if (data.user) {
         const { error: profileError } = await supabase
           .from("customer names") // Replace 'profiles' with your table name
           .insert({
             id: data.user.id, // Associate the name with the user's ID
-            customer_name: formData,
+            customer_name: formData.name,
           });
 
         if (profileError) setErrorMessage("An unknown error occurred.");
