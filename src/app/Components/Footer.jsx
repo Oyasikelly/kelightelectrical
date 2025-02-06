@@ -61,7 +61,11 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold text-white">Follow Us</h3>
             <div className="flex justify-center md:justify-start mt-4 space-x-4">
-              <a href="#" aria-label="Facebook" className="hover:text-white">
+              <a
+                href="https://www.facebook.com/profile.php/?id=100064067831958"
+                aria-label="Facebook"
+                className="hover:text-white"
+              >
                 <FaFacebook size={24} />
               </a>
               <a href="#" aria-label="Twitter" className="hover:text-white">
