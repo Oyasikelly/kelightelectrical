@@ -97,12 +97,13 @@ const AuthenticationForm = ({ onClose }) => {
         password: formData.password,
       });
 
+      console.log(data);
       console.log(error);
       if (data.user) {
         const { error: profileError } = await supabase
-          .from("customer names") // Replace 'profiles' with your table name
+          .from("customer_profile") // Replace 'profiles' with your table name
           .insert({
-            id: data.user.id, // Associate the name with the user's ID
+            customer_id: data.user.id, // Associate the name with the user's ID
             customer_name: formData.name,
           });
 
@@ -113,6 +114,8 @@ const AuthenticationForm = ({ onClose }) => {
         setSuccessMessage(
           "Sign-up successfull! An email has been sent to you, click to to confirm."
         );
+        setErrorMessage("");
+
         setShowSuccess(true);
         setTimeout(() => {
           router.push("/");
