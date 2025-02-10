@@ -10,31 +10,45 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { FaBars } from "react-icons/fa";
+import { useState } from "react";
 
 const MobileNavMenu = () => {
+  const [isOpen, setIsOpen] = useState(false); // Initially closed
+
+  const handleToggleSheet = () => {
+    setIsOpen((prev) => !prev); // Toggle open/close state
+  };
+
+  const handleCloseSheet = () => {
+    setIsOpen(false); // Close the sheet when content is clicked
+  };
+
   return (
     <div className="lg:hidden">
-      {/* Trigger Button */}
-      <Sheet>
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
           <Button
             variant="ghost"
             className="p-2 text-gray-800 hover:text-blue-400"
             aria-label="Open Menu"
+            onClick={handleToggleSheet} // Toggle on icon click
           >
             <FaBars size={24} />
           </Button>
         </SheetTrigger>
 
-        {/* Menu Content */}
-        <SheetContent side="left" className=" bg-white h-full w-64 shadow-lg">
+        <SheetContent
+          side="left"
+          onClick={handleCloseSheet} // Close when clicking the content
+          className="bg-white h-full w-64 shadow-lg"
+        >
           <SheetHeader className="flex-col items-center">
-            {/* Accessible Title */}
             <SheetTitle />
-            <Link href="/" className="w-[50px] xl:w-[70px] ">
-              <img src="/logo.png" alt="logo" className="W-full" />
+            <Link href="/" className="w-[50px] xl:w-[70px]">
+              <img src="/logo.png" alt="logo" className="w-full" />
             </Link>
           </SheetHeader>
+
           <nav className="space-y-6 mt-8">
             <Link
               href="/"
