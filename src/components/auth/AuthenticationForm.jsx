@@ -63,7 +63,7 @@ const AuthenticationForm = ({ onClose }) => {
 				email: state.formData.email,
 				password: state.formData.password,
 				options: {
-					emailRedirectTo: "https://kelightelectrical.vercel.app/",
+					emailRedirectTo: "https://kelightelectrical.vercel.app/dashboard",
 				},
 			});
 
