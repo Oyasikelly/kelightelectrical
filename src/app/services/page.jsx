@@ -1,15 +1,15 @@
 import React from "react";
 
 // components
-import Section from "../Components/Section";
-import ServicesPage from "../Components/ServicePage";
+import Section from "../../components/Section";
+import ServicesPage from "../../components/pages/ServicePage";
 
 export default function Services() {
-  return (
-    <>
-      <Section>
-        <ServicesPage />
-      </Section>
-    </>
-  );
+	return (
+		<>
+			<Section>
+				<ServicesPage />
+			</Section>
+		</>
+	);
 }

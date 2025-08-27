@@ -1,14 +1,14 @@
 import React from "react";
 
 // components
-import Section from "../Components/Section";
-import AboutPage from "../Components/AboutPage";
+import Section from "../../components/Section";
+import AboutPage from "../../components/pages/AboutPage";
 export default function About() {
-  return (
-    <>
-      <Section>
-        <AboutPage />
-      </Section>
-    </>
-  );
+	return (
+		<>
+			<Section>
+				<AboutPage />
+			</Section>
+		</>
+	);
 }
