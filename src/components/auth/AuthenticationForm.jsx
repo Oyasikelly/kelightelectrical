@@ -132,7 +132,7 @@ const AuthenticationForm = ({ onClose }) => {
 	};
 
 	return (
-		<div className="fixed top-0 left-0 w-full h-[100vh] bg-black bg-opacity-50 z-50 flex justify-center items-center">
+		<div className="fixed top-0 left-0 right-0 button-0 w-full h-screen bg-black bg-opacity-50 z-50 flex justify-center items-center">
 			<div className="flex flex-col max-w-md mx-auto bg-white shadow-xl p-8 rounded-lg">
 				<span
 					onClick={onClose}
@@ -227,7 +227,7 @@ const AuthenticationForm = ({ onClose }) => {
 				<p>
 					Forgotten password?{" "}
 					<Link
-						href="/reset-password"
+						href="/forgotten-password"
 						className="hover:underline text-blue-600">
 						click here
 					</Link>

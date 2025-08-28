@@ -17,7 +17,6 @@ const MobileNavMenu = () => {
 	const [isOpen, setIsOpen] = useState(false); // Initially closed
 	const pathname = usePathname();
 
-	console.log(pathname);
 	const handleToggleSheet = () => {
 		setIsOpen((prev) => !prev); // Toggle open/close state
 	};

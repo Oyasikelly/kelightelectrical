@@ -114,7 +114,7 @@ const Dashboard = () => {
 	};
 
 	return (
-		<div className="absolute top-0 right-0 left-0 z-50 min-h-screen bg-gradient-to-r from-blue-50 via-gray-100 to-blue-100 py-0 px-6 lg:px-0 flex flex-col lg:flex-row">
+		<div className="absolute top-0 right-0 left-0 z-50 min-h-screen bg-gradient-to-r from-blue-50 via-gray-100 to-blue-100 py-0 px-0 md:px-6 lg:px-0 flex flex-col lg:flex-row">
 			{/* Sidebar Navigation */}
 			<div className="lg:w-64 bg-blue-400  text-white p-6 space-y-6 lg:block hidden">
 				<ul className="text-lg flex flex-col gap-4 ">
@@ -144,7 +144,7 @@ const Dashboard = () => {
 				</ul>
 			</div>
 			{/* Main Content */}
-			<div className="flex-1 px-8 lg:px-0 h-screen overflow-y-scroll scrollbar-hide">
+			<div className="flex-1 px-0 lg:px-0 h-screen mt-14 overflow-y-scroll scrollbar-hide">
 				{renderContent()}
 			</div>
 
@@ -154,7 +154,7 @@ const Dashboard = () => {
 				onOpenChange={() => setSheetOpen(!sheetOpen)}>
 				<SheetTrigger>
 					<div
-						className={`fixed lg:hidden top-6 left-0 z-30 text-white p-4 rounded-full shadow-lg cursor-pointer ${
+						className={`bg-white rounded-lg shadow-lg w-full flex items-center justify-end fixed lg:hidden right-0 top-0 z-30 text-white px-6 py-5 cursor-pointer ${
 							sheetOpen ? "hidden" : "block"
 						}`}
 						onClick={() => setSheetOpen(true)}>
