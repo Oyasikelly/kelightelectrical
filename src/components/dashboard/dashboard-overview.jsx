@@ -13,10 +13,12 @@ import {
 	FaBolt,
 	FaUserTie,
 } from "react-icons/fa";
+import useClientInfo from "@/context/ClientInfoContext";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Overview = ({ onProfile }) => {
+	const { name, email, profilePicture } = useClientInfo().clientInfo || {};
 	const stats = [
 		{
 			title: "Total Requests",
@@ -118,16 +120,21 @@ const Overview = ({ onProfile }) => {
 					className="text-xl sm:text-2xl font-bold text-gray-800">
 					Overview
 				</motion.h2>
-				<div className="flex items-center gap-3">
-					<motion.span className="text-sm sm:text-base break-all">
-						@exampleemail.com
-					</motion.span>
+				<div className="flex items-center justify-between gap-3 w-full">
+					<div className="flex flex-col sm:flex-row sm:items-center gap-2">
+						<motion.h2 className="text-base sm:text-medium break-all font-semibold text-gray-700">
+							{name}
+						</motion.h2>
+						<motion.span className="text-sm sm:text-base break-all">
+							{email}
+						</motion.span>
+					</div>
 					<div
 						onClick={() => onProfile("account_settings")}
-						className="cursor-pointer w-12 h-12 sm:w-[50px] sm:h-[50px] rounded-full border-4 border-blue-400 overflow-hidden">
+						className="self-end cursor-pointer w-12 h-12 sm:w-[50px] sm:h-[50px] rounded-full border-4 border-blue-400 overflow-hidden">
 						<img
 							className="w-full h-full object-cover"
-							src="/assets/testimonial3.jpg"
+							src={profilePicture || "/assets/default-avatar.png"}
 							alt="profile"
 						/>
 					</div>

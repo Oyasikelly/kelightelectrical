@@ -16,6 +16,7 @@ import AccountSettings from "../../components/dashboard/dashboard-account-settin
 import SupportAndHelp from "../../components/dashboard/dashboard-support";
 import Testimonial from "../../components/dashboard/dashboard-testimonial";
 import Logout from "../../components/dashboard/dashboard-logout";
+import ContactPage from "@/components/pages/ContactPage";
 {
 	/* Dashboard overview My Services Billing & Paymonets Service Requests Account Setting support & Help Testimonials */
 }
@@ -106,6 +107,12 @@ const Dashboard = () => {
 				return (
 					<div>
 						<Logout />
+					</div>
+				);
+			case "contact":
+				return (
+					<div>
+						<ContactPage />
 					</div>
 				);
 			default:

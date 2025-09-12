@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import SuccessMessage from "../SuccessMessage";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+import useClientInfo from "@/context/ClientInfoContext";
 
 // ---------------- Reducer Setup ----------------
 const initialState = {
@@ -49,6 +50,7 @@ function reducer(state, action) {
 const AuthenticationForm = ({ onClose }) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const router = useRouter();
+	const { setLoading } = useClientInfo();
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -78,6 +80,7 @@ const AuthenticationForm = ({ onClose }) => {
 					.from("customer_profile")
 					.insert({
 						customer_id: data.user.id,
+						email: state.formData.email,
 						customer_name: state.formData.name,
 					});
 
@@ -111,6 +114,7 @@ const AuthenticationForm = ({ onClose }) => {
 	const handleSignIn = async (e) => {
 		e.preventDefault();
 		try {
+			setLoading(true);
 			dispatch({ type: "SET_LOADING", payload: true });
 			const { data, error } = await supabase.auth.signInWithPassword({
 				email: state.formData.email,
@@ -128,6 +132,7 @@ const AuthenticationForm = ({ onClose }) => {
 			dispatch({ type: "SET_ERROR", payload: "An unknown error occurred." });
 		} finally {
 			dispatch({ type: "SET_LOADING", payload: false });
+			setLoading(false);
 		}
 	};
 

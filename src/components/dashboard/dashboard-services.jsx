@@ -1,6 +1,20 @@
 // Services Component for KelightElectrical Dashboard
 // Animated and User-Friendly
-
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+	FaStar,
+	FaLightbulb,
+	FaWrench,
+	FaTools,
+	FaBolt,
+	FaFan,
+	FaPlug,
+	FaCogs,
+	FaSolarPanel,
+} from "react-icons/fa";
+import { supabase } from "@/lib/supabase";
+import useClientInfo from "@/context/ClientInfoContext";
 // Rating Component
 const Rating = ({ rating, onRatingChange }) => {
 	return (
@@ -21,20 +35,6 @@ const Rating = ({ rating, onRatingChange }) => {
 		</div>
 	);
 };
-
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import {
-	FaStar,
-	FaLightbulb,
-	FaWrench,
-	FaTools,
-	FaBolt,
-	FaFan,
-	FaPlug,
-	FaCogs,
-	FaSolarPanel,
-} from "react-icons/fa";
 
 const services = [
 	{
@@ -110,7 +110,12 @@ const services = [
 const Services = ({ handleLinkClick }) => {
 	const [selectedService, setSelectedService] = useState(null);
 	const [serviceRating, setServiceRating] = useState(0);
-
+	const {
+		id: user_id,
+		name: user_name,
+		profilePicture,
+	} = useClientInfo().clientInfo || {};
+	const [loading, setLoading] = useState(false);
 	const containerVariants = {
 		hidden: { opacity: 0, scale: 0.95 },
 		visible: {
@@ -133,117 +138,228 @@ const Services = ({ handleLinkClick }) => {
 		},
 	};
 
+	const [formData, setFormData] = useState({
+		title: "",
+		testimonial: "",
+		service: "",
+		rating: 0,
+	});
+
+	useEffect(() => {
+		if (selectedService) {
+			setFormData((prev) => ({
+				...prev,
+				service: selectedService.title,
+				rating: serviceRating,
+			}));
+		}
+	}, [selectedService, serviceRating]);
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setFormData((prev) => ({
+			...prev,
+			[name]: value,
+		}));
+	};
+
+	async function handleTestimonialSubmit(e) {
+		e.preventDefault();
+		console.log("Testimonial Submitted:", formData);
+
+		// reset form UI
+		setFormData({ title: "", testimonial: "", service: "", rating: 0 });
+		setServiceRating(0);
+		setSelectedService(null);
+
+		setLoading(true);
+		try {
+			// 1. Fetch existing testimonials for this user
+			const { data: existing, error: fetchError } = await supabase
+				.from("testimonials")
+				.select("services, testimonies, ratings")
+				.eq("id", user_id)
+				.single();
+
+			if (fetchError && fetchError.code !== "PGRST116") {
+				console.error("Error fetching existing testimonials:", fetchError);
+				return;
+			}
+
+			// 2. Merge new testimonial with existing arrays
+			let updatedServices = existing?.services ?? [];
+			let updatedTestimonies = existing?.testimonies ?? [];
+			let updatedRatings = existing?.ratings ?? [];
+
+			if (!updatedServices.includes(formData.service)) {
+				updatedServices.push(formData.service);
+				updatedTestimonies.push(formData.testimonial);
+				updatedRatings.push(formData.rating);
+			} else {
+				// If service already exists, update its testimonial + rating
+				const index = updatedServices.indexOf(formData.service);
+				updatedTestimonies[index] = formData.testimonial;
+				updatedRatings[index] = formData.rating;
+			}
+
+			// 3. Upsert back into the table
+			const { error } = await supabase.from("testimonials").upsert(
+				{
+					id: user_id,
+					name: user_name,
+					services: updatedServices,
+					testimonies: updatedTestimonies,
+					img: profilePicture || "",
+					ratings: updatedRatings,
+					title: formData.title || "Valued Customer",
+				},
+				{ onConflict: "id" }
+			);
+		} catch (error) {
+			console.error("Error submitting testimonial:", error);
+		} finally {
+			setLoading(false);
+		}
+	}
+
 	return (
-		<motion.div
-			initial="hidden"
-			animate="visible"
-			variants={containerVariants}
-			className="p-8 bg-gray-50 min-h-screen">
-			<motion.h2
-				initial={{ opacity: 0, x: -50 }}
-				animate={{ opacity: 1, x: 0 }}
-				transition={{ duration: 0.5 }}
-				className="text-3xl font-bold text-center text-gray-800 mb-8">
-				Our Services
-			</motion.h2>
-			<motion.p
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ duration: 0.5 }}
-				className="text-center text-gray-600 mb-12">
-				We offer a wide range of professional electrical services tailored to
-				meet your specific needs. From installation to maintenance, our team
-				ensures quality and reliability at every step.
-			</motion.p>
-
+		<>
+			{loading && <div className="loading-overlay">Submitting...</div>}
 			<motion.div
-				className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-				variants={containerVariants}>
-				{services.map((service, index) => (
-					<motion.div
-						key={index}
-						variants={cardVariants}
-						whileHover="hover"
-						className="p-6 bg-white rounded-lg shadow-lg flex flex-col items-center text-center cursor-pointer"
-						onClick={() => setSelectedService(service)}>
-						<div className="mb-4">{service.icon}</div>
-						<h3 className="text-xl font-semibold text-gray-800 mb-2">
-							{service.title}
-						</h3>
-						<p className="text-gray-600 mb-4">{service.description}</p>
-					</motion.div>
-				))}
-			</motion.div>
+				initial="hidden"
+				animate="visible"
+				variants={containerVariants}
+				className="p-8 bg-gray-50 min-h-screen">
+				<motion.h2
+					initial={{ opacity: 0, x: -50 }}
+					animate={{ opacity: 1, x: 0 }}
+					transition={{ duration: 0.5 }}
+					className="text-3xl font-bold text-center text-gray-800 mb-8">
+					Our Services
+				</motion.h2>
+				<motion.p
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ duration: 0.5 }}
+					className="text-center text-gray-600 mb-12">
+					We offer a wide range of professional electrical services tailored to
+					meet your specific needs. From installation to maintenance, our team
+					ensures quality and reliability at every step.
+				</motion.p>
 
-			{selectedService && (
 				<motion.div
-					initial={{ opacity: 0, scale: 0.9 }}
-					animate={{ opacity: 1, scale: 1 }}
-					exit={{ opacity: 0, scale: 0.9 }}
-					className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 px-4"
-					onClick={() => setSelectedService(null)}>
-					<motion.div
-						initial={{ y: -50 }}
-						animate={{ y: 0 }}
-						className="bg-white p-8 rounded-lg shadow-lg max-w-lg text-center relative"
-						onClick={(e) => e.stopPropagation()}>
-						<button
-							className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
-							onClick={() => setSelectedService(null)}>
-							&times;
-						</button>
-						<div className="mb-4">{selectedService.icon}</div>
-						<h3 className="text-2xl font-bold text-gray-800 mb-4">
-							{selectedService.title}
-						</h3>
-						<p className="text-gray-600 mb-6">
-							{selectedService.testimonialWriteup}
-						</p>
-
-						<Rating
-							rating={serviceRating}
-							onRatingChange={setServiceRating}
-						/>
-
-						<form className="text-left mb-4">
-							<label
-								htmlFor="testimonial"
-								className="block text-gray-700 font-medium mb-2">
-								Share your experience:
-							</label>
-							<textarea
-								id="testimonial"
-								rows="4"
-								className="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-								placeholder="Write your testimonial here..."></textarea>
-							<button
-								type="submit"
-								className="mt-4 px-6 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700">
-								Submit Testimonial
-							</button>
-						</form>
-						<button
-							className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
-							onClick={() => handleLinkClick("service_requests")}>
-							Proceed to Request Service
-						</button>
-					</motion.div>
+					className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+					variants={containerVariants}>
+					{services.map((service, index) => (
+						<motion.div
+							key={index}
+							variants={cardVariants}
+							whileHover="hover"
+							className="p-6 bg-white rounded-lg shadow-lg flex flex-col items-center text-center cursor-pointer"
+							onClick={() => setSelectedService(service)}>
+							<div className="mb-4">{service.icon}</div>
+							<h3 className="text-xl font-semibold text-gray-800 mb-2">
+								{service.title}
+							</h3>
+							<p className="text-gray-600 mb-4">{service.description}</p>
+						</motion.div>
+					))}
 				</motion.div>
-			)}
 
-			<motion.div
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ delay: 0.2, duration: 0.5 }}
-				className="mt-16 text-center">
-				<motion.button
-					whileHover={{ scale: 1.1 }}
-					whileTap={{ scale: 0.95 }}
-					className="px-8 py-4 bg-green-600 text-white text-lg rounded-lg shadow-md hover:bg-green-700">
-					Contact Us Today
-				</motion.button>
+				{selectedService && (
+					<motion.div
+						initial={{ opacity: 0, scale: 0.9 }}
+						animate={{ opacity: 1, scale: 1 }}
+						exit={{ opacity: 0, scale: 0.9 }}
+						className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 px-4"
+						onClick={() => setSelectedService(null)}>
+						<motion.div
+							initial={{ y: -50 }}
+							animate={{ y: 0 }}
+							className="bg-white p-8 rounded-lg shadow-lg max-w-lg text-center relative"
+							onClick={(e) => e.stopPropagation()}>
+							<button
+								className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+								onClick={() => setSelectedService(null)}>
+								&times;
+							</button>
+							<div className="mb-4">{selectedService.icon}</div>
+							<h3 className="text-2xl font-bold text-gray-800 mb-4">
+								{selectedService.title}
+							</h3>
+							<p className="text-gray-600 mb-6">
+								{selectedService.testimonialWriteup}
+							</p>
+
+							<Rating
+								rating={serviceRating}
+								onRatingChange={setServiceRating}
+							/>
+
+							<form
+								className="text-left mb-4"
+								onSubmit={handleTestimonialSubmit}>
+								<div>
+									<label className="block text-gray-700 font-medium mb-2">
+										Who are you?
+									</label>
+
+									<input
+										type="text"
+										name="title"
+										value={formData.title}
+										placeholder="Enter who you are"
+										className="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+										required
+										onChange={handleChange}
+									/>
+								</div>
+								<div>
+									<label
+										htmlFor="testimonial"
+										className="block text-gray-700 font-medium mb-2">
+										Share your experience:
+									</label>
+									<textarea
+										id="testimonial"
+										rows="4"
+										name="testimonial"
+										value={formData.testimonial}
+										onChange={handleChange}
+										className="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+										placeholder="Write your testimonial here..."></textarea>
+								</div>
+
+								<button
+									type="submit"
+									className="mt-4 px-6 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700">
+									Submit Testimonial
+								</button>
+							</form>
+							<button
+								className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
+								onClick={() => handleLinkClick("service_requests")}>
+								Proceed to Request Service
+							</button>
+						</motion.div>
+					</motion.div>
+				)}
+
+				<motion.div
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ delay: 0.2, duration: 0.5 }}
+					className="mt-16 text-center">
+					<motion.button
+						onClick={() => handleLinkClick("contact")}
+						whileHover={{ scale: 1.1 }}
+						whileTap={{ scale: 0.95 }}
+						className="px-8 py-4 bg-green-600 text-white text-lg rounded-lg shadow-md hover:bg-green-700">
+						Contact Us Today
+					</motion.button>
+				</motion.div>
 			</motion.div>
-		</motion.div>
+		</>
 	);
 };
 

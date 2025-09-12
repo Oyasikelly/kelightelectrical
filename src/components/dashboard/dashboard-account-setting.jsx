@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
 	FaUser,
@@ -9,16 +9,18 @@ import {
 	FaTrash,
 	FaInfoCircle,
 } from "react-icons/fa";
+import useClientInfo from "@/context/ClientInfoContext";
+import { supabase } from "@/lib/supabase";
 
 const AccountSettings = () => {
-	const [isEditing, setIsEditing] = useState(false);
 	const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 	const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+	const { id: user_id, name, email, phone } = useClientInfo().clientInfo || {};
 	const [userData, setUserData] = useState({
-		name: "John Doe",
-		email: "johndoe@example.com",
-		phone: "123-456-7890",
+		name: name,
+		email: email,
+		phone: phone || "",
 		profilePicture: "",
 		notifications: { email: true, sms: false, push: true },
 		privacy: { profileVisible: true, dataSharing: false },
@@ -48,6 +50,56 @@ const AccountSettings = () => {
 		},
 	};
 
+	async function handleProfileUpload(file, userId) {
+		if (!file) return;
+
+		const filePath = `avatars/${userId}-${Date.now()}.${file.name
+			.split(".")
+			.pop()}`;
+
+		const { error } = await supabase.storage
+			.from("profile-pictures")
+			.upload(filePath, file, { upsert: true });
+
+		if (error) {
+			console.error("Upload error:", error);
+			return null;
+		}
+
+		// Get public URL
+		const {
+			data: { publicUrl },
+		} = supabase.storage.from("profile-pictures").getPublicUrl(filePath);
+
+		return publicUrl;
+	}
+
+	async function updateUserAvatar(userId, url) {
+		const { error } = await supabase
+			.from("customer_profile")
+			.update({ avatar_url: url, phone: userData.phone, email: userData.email })
+			.eq("customer_id", userId);
+
+		if (error) console.error("DB update error:", error);
+	}
+
+	useEffect(() => {
+		async function fetchUserProfile() {
+			const { data, error } = await supabase
+				.from("customer_profile")
+				.select("avatar_url")
+				.eq("customer_id", user_id)
+				.single();
+
+			if (error) {
+				console.error("Fetch profile error:", error);
+			} else if (data?.avatar_url) {
+				setUserData((prev) => ({ ...prev, profilePicture: data.avatar_url }));
+			}
+		}
+		fetchUserProfile();
+	}, []);
+
 	return (
 		<motion.div
 			initial="hidden"
@@ -76,16 +128,18 @@ const AccountSettings = () => {
 							<FaUser className="text-4xl text-gray-500" />
 						)}
 					</div>
-					<div className="flex-1">
-						<h2 className="text-xl font-semibold">{userData.name}</h2>
-						<p className="text-gray-600">{userData.email}</p>
-						<p className="text-gray-600">{userData.phone}</p>
+					<div className="flex-1 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+						<div className="flex-1">
+							<h2 className="text-xl font-semibold">{userData.name}</h2>
+							<p className="text-gray-600">{userData.email}</p>
+							<p className="text-gray-600">{userData.phone}</p>
+						</div>
+						<button
+							onClick={toggleProfileModal}
+							className="px-2 py-2 bg-blue-600 text-white text-xs md:text-md lg:text-base rounded-md hover:bg-blue-700">
+							Edit Profile
+						</button>
 					</div>
-					<button
-						onClick={toggleProfileModal}
-						className="px-2 py-2 bg-blue-600 text-white text-xs md:text-md lg:text-base rounded-md hover:bg-blue-700">
-						Edit Profile
-					</button>
 				</div>
 			</motion.div>
 
@@ -153,7 +207,7 @@ const AccountSettings = () => {
 			</motion.div>
 
 			{/* Change Password */}
-			<motion.div
+			{/* <motion.div
 				variants={childVariants}
 				className="mb-6 p-6 bg-white rounded-xl shadow-lg"
 				whileHover={{ scale: 1.02 }}>
@@ -165,7 +219,7 @@ const AccountSettings = () => {
 						Change Password
 					</button>
 				</AnimatePresence>
-			</motion.div>
+			</motion.div> */}
 
 			{/* Account Deletion */}
 			<motion.div
@@ -231,12 +285,16 @@ const AccountSettings = () => {
 								/>
 								<input
 									type="file"
-									onChange={(e) =>
-										setUserData({
-											...userData,
-											profilePicture: URL.createObjectURL(e.target.files[0]),
-										})
-									}
+									onChange={async (e) => {
+										const file = e.target.files[0];
+										if (file) {
+											const url = await handleProfileUpload(file, user_id);
+											if (url) {
+												setUserData({ ...userData, profilePicture: url });
+												await updateUserAvatar(user_id, url);
+											}
+										}
+									}}
 									className="w-full p-3 border rounded-lg"
 								/>
 							</div>
