@@ -1,4 +1,5 @@
 "use client";
+import { use } from "react";
 import { notFound } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -15,8 +16,9 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.12 } },
 };
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const blog = Blogs.find((b: any) => b.slug === params.slug);
+export default function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = use(params);
+  const blog = Blogs.find((b: any) => b.slug === resolvedParams.slug);
   if (!blog) notFound();
 
   const related = Blogs.filter((b: any) => b.slug !== blog.slug && b.category === blog.category).slice(0, 3);

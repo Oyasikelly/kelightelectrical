@@ -1,4 +1,5 @@
 "use client";
+import { use } from "react";
 import { notFound } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -30,8 +31,9 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.15 } },
 };
 
-export default function ServicePage({ params }: { params: { slug: string } }) {
-  const service = Services.find((s: any) => s.slug === params.slug);
+export default function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = use(params);
+  const service = Services.find((s: any) => s.slug === resolvedParams.slug);
   if (!service) notFound();
 
   return (
