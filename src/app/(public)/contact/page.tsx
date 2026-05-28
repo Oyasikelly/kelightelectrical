@@ -1,8 +1,8 @@
 import React from "react";
 
 // components
-import Section from "../../components/Section";
-import ContactPage from "../../components/pages/ContactPage";
+import Section from "@/components/Section";
+import ContactPage from "@/components/pages/ContactPage";
 export default function Contact() {
 	return (
 		<>
