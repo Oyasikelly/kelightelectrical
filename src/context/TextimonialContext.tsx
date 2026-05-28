@@ -1,6 +1,8 @@
-import { useContext, createContext } from "react";
-export const TestimonialContext = createContext();
-export const TestimonialProvider = ({ children }) => {
+import React, { useContext, createContext, useState } from "react";
+
+export const TestimonialContext = createContext<any>(null);
+
+export const TestimonialProvider = ({ children }: { children: React.ReactNode }) => {
 	const [testimonialInfo, setTestimonialInfo] = useState({
 		img: "",
 		name: "",

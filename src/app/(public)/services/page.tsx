@@ -36,9 +36,9 @@ export default function ServicesPage() {
       <section className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800">Service Details & Pricing</h2>
+            <h2 className="text-3xl font-bold text-gray-800">Our Services</h2>
             <p className="text-gray-500 mt-3 max-w-xl mx-auto">
-              Click any service below to see what&apos;s included, how it works, and pricing information.
+              Click any service below to see what&apos;s included, how it works, and get a free custom quote.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -58,8 +58,8 @@ export default function ServicesPage() {
                     <h3 className="font-bold text-gray-800 group-hover:text-blue-700 transition-colors">
                       {service.title}
                     </h3>
-                    <span className="text-xs font-semibold text-blue-600 bg-blue-100 px-2 py-1 rounded-full whitespace-nowrap flex-shrink-0">
-                      {service.price}
+                    <span className="text-xs font-semibold text-green-700 bg-green-100 px-2 py-1 rounded-full whitespace-nowrap flex-shrink-0">
+                      Free Quote
                     </span>
                   </div>
                   <p className="text-gray-500 text-sm mt-1 leading-relaxed line-clamp-2">

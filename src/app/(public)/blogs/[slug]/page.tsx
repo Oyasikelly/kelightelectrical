@@ -80,6 +80,20 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
               {blog.description}
             </motion.p>
 
+            {/* YouTube Video Embed */}
+            {blog.video && (
+              <motion.div variants={fadeUp} className="mb-10">
+                <div className="relative rounded-2xl overflow-hidden shadow-md border border-gray-100 aspect-video">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${blog.video}`}
+                    title={blog.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
+                  />
+                </div>
+              </motion.div>
+            )}
             <div className="space-y-8">
               {blog.content.map((section: any, i: number) => (
                 <motion.div key={i} variants={fadeUp} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">

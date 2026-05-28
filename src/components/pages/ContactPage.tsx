@@ -13,7 +13,7 @@ const initialState = {
   errorMsg: null,
 };
 
-function reducer(state, action) {
+function reducer(state: any, action: any) {
   switch (action.type) {
     case "SET_FIELD":
       return {
@@ -40,12 +40,12 @@ export default function ContactPage() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { formData, errors, submitted, loading, errorMsg } = state;
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     dispatch({ type: "SET_FIELD", field: e.target.name, value: e.target.value });
   };
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: Record<string, string> = {};
     if (!formData.name.trim()) newErrors.name = "Name is required.";
     if (!formData.email.trim()) {
       newErrors.email = "Email is required.";
@@ -58,7 +58,7 @@ export default function ContactPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
       dispatch({ type: "SET_LOADING", loading: true });
@@ -245,7 +245,7 @@ export default function ContactPage() {
                         value={formData.message}
                         onChange={handleChange}
                         placeholder="How can we help you?"
-                        rows="5"
+                        rows={5}
                         className={`w-full p-4 border rounded-xl bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors resize-none ${
                           errors.message ? "border-red-400 focus:ring-red-500" : "border-gray-200"
                         }`}

@@ -135,7 +135,10 @@ export default function ServicePage({ params }: { params: Promise<{ slug: string
           <motion.div variants={fadeUp} className="space-y-6">
             {/* Price Card */}
             <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100 sticky top-24">
-              <div className="text-3xl font-bold text-blue-600 mb-1">{service.price}</div>
+              <div className="mb-1">
+                <span className="inline-block text-xs font-semibold text-green-700 bg-green-100 px-3 py-1 rounded-full uppercase tracking-wide mb-2">Custom Pricing</span>
+                <div className="text-xl font-bold text-gray-800 leading-snug">Get a free quote tailored to your needs</div>
+              </div>
               <p className="text-sm text-gray-500 mb-6">{service.priceNote}</p>
               <Link
                 href="/contact"
