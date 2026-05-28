@@ -12,7 +12,7 @@ const SupportAndHelp = () => {
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
@@ -30,14 +30,14 @@ const SupportAndHelp = () => {
   };
   const toggleFeedback = () => setIsFeedbackOpen(!isFeedbackOpen);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: Record<string, string> = {};
     if (!formData.name.trim()) newErrors.name = "Name is required.";
     if (!formData.email.trim()) {
       newErrors.email = "Email is required.";
@@ -49,7 +49,7 @@ const SupportAndHelp = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!validateForm()) return;
     setLoading(true);
@@ -257,7 +257,7 @@ const SupportAndHelp = () => {
                       name="message"
                       value={formData.message}
                       onChange={handleInputChange}
-                      rows="4"
+                      rows={4}
                       placeholder="Describe your issue or question..."
                       className={`w-full border rounded-lg p-3 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
                         errors.message ? "border-red-400" : "border-gray-200"
@@ -322,7 +322,7 @@ const SupportAndHelp = () => {
                     value={feedbackText}
                     onChange={(e) => setFeedbackText(e.target.value)}
                     placeholder="Share your experience with KelightElectrical..."
-                    rows="4"
+                    rows={4}
                     className="w-full border border-gray-200 rounded-lg p-3 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                   ></textarea>
                   <button

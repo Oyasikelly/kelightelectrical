@@ -322,7 +322,7 @@ const Services = ({ handleLinkClick }) => {
 									</label>
 									<textarea
 										id="testimonial"
-										rows="4"
+										rows={4}
 										name="testimonial"
 										value={formData.testimonial}
 										onChange={handleChange}
