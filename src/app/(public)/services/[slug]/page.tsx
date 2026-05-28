@@ -201,7 +201,3 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
     </main>
   );
 }
-
-export async function generateStaticParams() {
-  return Services.map((service: any) => ({ slug: service.slug }));
-}

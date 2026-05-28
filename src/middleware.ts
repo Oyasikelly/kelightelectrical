@@ -1,25 +1,32 @@
 import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
-
 import { NextRequest, NextResponse } from "next/server";
-// import { supabase } from "./lib/supabase";
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
-
   const supabase = createMiddlewareClient({ req, res });
 
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (session) {
-    return NextResponse.rewrite(new URL("/dashboard", req.url));
+  const { pathname } = req.nextUrl;
+
+  // Protect dashboard routes — redirect unauthenticated users to /login
+  if (pathname.startsWith("/dashboard") && !session) {
+    const loginUrl = new URL("/login", req.url);
+    loginUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(loginUrl);
   }
-  if (!session) {
-    return;
+
+  // Redirect authenticated users away from auth pages to dashboard
+  if ((pathname === "/login" || pathname === "/sign-up") && session) {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
+
   return res;
 }
+
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  // Only run middleware on dashboard and auth routes — leave all public pages untouched
+  matcher: ["/dashboard/:path*", "/login", "/sign-up"],
 };

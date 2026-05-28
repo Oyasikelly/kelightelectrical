@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
 import NavbarLinks from "@/lib/NavbarLinks";
 
 export default function Header() {
@@ -80,14 +81,22 @@ export default function Header() {
 				{/* Desktop CTA */}
 				<div className="hidden lg:flex items-center gap-3">
 					<a
-						href="tel:+2349068318254"
-						className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">
-						+234 906 831 8254
+						href="https://wa.me/2349068318254"
+						target="_blank"
+						rel="noopener noreferrer"
+						className="flex items-center gap-1.5 text-sm font-medium text-green-600 hover:text-green-700 bg-green-50 hover:bg-green-100 px-3 py-1.5 rounded-lg transition-colors">
+						<FaWhatsapp size={18} />
+						WhatsApp
 					</a>
 					<Link
-						href="/contact"
+						href="/login"
+						className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-50">
+						Sign In
+					</Link>
+					<Link
+						href="/sign-up"
 						className="bg-blue-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-sm hover:bg-blue-700 transition-colors">
-						Get a Quote
+						Get Started
 					</Link>
 				</div>
 
@@ -127,14 +136,21 @@ export default function Header() {
 							})}
 							<div className="pt-3 mt-2 border-t border-gray-100 flex flex-col gap-2">
 								<a
-									href="tel:+2349068318254"
-									className="px-4 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
-									📞 +234 906 831 8254
+									href="https://wa.me/2349068318254"
+									target="_blank"
+									rel="noopener noreferrer"
+									className="px-4 py-3 rounded-xl text-sm font-medium text-green-700 bg-green-50 hover:bg-green-100 transition-colors flex items-center justify-center gap-2">
+									<FaWhatsapp size={18} /> Chat on WhatsApp
 								</a>
 								<Link
-									href="/contact"
+									href="/login"
+									className="px-4 py-3 rounded-xl text-sm font-medium text-gray-700 border border-gray-200 hover:bg-gray-50 transition-colors text-center">
+									Sign In
+								</Link>
+								<Link
+									href="/sign-up"
 									className="bg-blue-600 text-white text-sm font-semibold px-4 py-3 rounded-xl text-center hover:bg-blue-700 transition-colors">
-									Get a Free Quote
+									Get Started — It&apos;s Free
 								</Link>
 							</div>
 						</nav>

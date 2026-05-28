@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollTo from "@/components/ScrollTo";
+import CookieConsent from "@/components/CookieConsent";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,6 +12,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       </main>
       <ScrollTo />
       <Footer />
+      <CookieConsent />
     </>
   );
 }

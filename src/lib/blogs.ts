@@ -240,6 +240,67 @@ const Blogs: Blog[] = [
       { heading: "KelightElectrical and Renewables", body: "KelightElectrical is experienced in solar PV installation and integration. We design complete systems from panels to inverters, batteries, and distribution. Contact us to start your renewable energy journey." },
     ],
   },
+  {
+    slug: "choosing-solar-system",
+    title: "Questions to Ask Yourself Before Choosing a Solar System",
+    description:
+      "There are different grades and capacities of solar systems. Before choosing a setup, here are some important questions to ask yourself to find the perfect fit.",
+    image: "/assets/blog11.jpg",
+    link: "/blogs/choosing-solar-system",
+    date: "May 28, 2026",
+    readTime: "6 min read",
+    category: "Solar Energy",
+    content: [
+      {
+        heading: "1. What appliances (loads) do you want to power?",
+        body: "Examples include Bulbs, Fans, TVs, Decoder, Refrigerator, Freezer, Air Conditioner, Pumping machine, Laptop/Desktop, and CCTV cameras.",
+      },
+      {
+        heading: "2. What is your budget?",
+        body: "Your budget helps determine the size of the inverter, battery capacity, number of solar panels, and overall backup duration.",
+      },
+      {
+        heading: "3. How long do you want the system to last during the night?",
+        body: "Consider your needs for example: 4–6 hours, overnight usage, or 24/7 backup.",
+      },
+      {
+        heading: "4. Do you want to power only essential appliances or the whole house?",
+        body: "Some clients only want lights, fans, and TV. Others may want full-house coverage including ACs and heavy appliances.",
+      },
+      {
+        heading: "5. How many hours of electricity supply do you currently get daily?",
+        body: "This helps determine your necessary battery size, charging requirements, and solar panel quantity.",
+      },
+      {
+        heading: "6. Are there heavy appliances you want to run?",
+        body: "Examples include Air conditioners, Electric iron, Microwave, Water heater, and Deep freezer. Heavy loads require stronger and more expensive systems.",
+      },
+      {
+        heading: "7. Do you prefer a future-upgradable system?",
+        body: "Some systems can easily be expanded later by adding more batteries, adding more solar panels, or upgrading inverter capacity.",
+      },
+      {
+        heading: "8. Do you want a solar-only system or solar + generator backup?",
+        body: "Some setups integrate PHCN, a Generator, and a Solar system together.",
+      },
+      {
+        heading: "9. What type of battery do you prefer?",
+        body: "Options include Lithium batteries (longer lifespan, faster charging) or Tubular/Lead-acid batteries (more affordable).",
+      },
+      {
+        heading: "10. How important is silent and stress-free power to you?",
+        body: "Solar offers no generator noise, no fuel expenses, minimal maintenance, and cleaner energy.",
+      },
+      {
+        heading: "11. Do you have enough roof space for solar panels?",
+        body: "The available installation space affects the number of panels and expansion possibilities.",
+      },
+      {
+        heading: "12. Are you looking for a temporary solution or a long-term investment?",
+        body: "A good solar system is a long-term investment that can save money over time. At Kelight Electrical, we help you choose a solar solution that fits your needs and your budget perfectly.",
+      },
+    ],
+  },
 ];
 
 export default Blogs;

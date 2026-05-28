@@ -147,7 +147,3 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     </main>
   );
 }
-
-export async function generateStaticParams() {
-  return Blogs.map((blog: any) => ({ slug: blog.slug }));
-}

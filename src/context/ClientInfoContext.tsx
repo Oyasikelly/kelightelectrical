@@ -18,53 +18,48 @@ export const ClientInfoProvider = ({ children }: { children: React.ReactNode }) 
 		const fetchClientInfo = async () => {
 			setLoading(true);
 			try {
-				const { data, error } = await supabase.auth.getUser();
-				if (error) {
-					console.error("Error fetching client info:", error);
+				// getSession() is safe — returns null instead of throwing when not logged in
+				const { data: sessionData } = await supabase.auth.getSession();
+				const session = sessionData?.session;
+
+				// No session means the user is not logged in — skip all profile fetching
+				if (!session) {
 					return;
 				}
 
-				const user = data?.user;
-				console.log("Fetched user:", user);
+				const user = session.user;
 
 				let customerName = null;
 				let pictureUrl = null;
 				let phone = null;
-				if (user) {
-					// Fetch the customer name from customer_profile using the user's ID
-					const { data: profile, error: profileError } = await supabase
-						.from("customer_profile")
-						.select("customer_name, avatar_url,phone")
-						.eq("customer_id", user.id)
-						.single();
 
-					console.log("Fetched profile:", profile);
-					if (profileError) {
-						console.error("Error fetching customer profile:", profileError);
-					} else {
-						customerName = profile?.customer_name || null;
-						pictureUrl = profile?.avatar_url || null;
-						phone = profile?.phone || null;
-					}
-					// Fetch testimonials associated with the user
-					const { data: testimonialData, error: testimonialError } =
-						await supabase
-							.from("testimonials")
-							.select("img,name,testimonies,services,ratings,title")
-							.eq("id", user.id);
-					if (testimonialError) {
-						console.error("Error fetching testimonials:", testimonialError);
-					}
-					console.log("Fetched testimonials:", testimonialData);
-					setClientInfo({
-						id: user.id,
-						email: user.email,
-						name: customerName, // Use the name from customer_profile
-						phone: phone,
-						profilePicture: pictureUrl, // Use the avatar_url from customer_profile
-						testimonials: testimonialData || null,
-					});
+				// Fetch the customer profile
+				const { data: profile, error: profileError } = await supabase
+					.from("customer_profile")
+					.select("customer_name, avatar_url, phone")
+					.eq("customer_id", user.id)
+					.single();
+
+				if (!profileError) {
+					customerName = profile?.customer_name || null;
+					pictureUrl = profile?.avatar_url || null;
+					phone = profile?.phone || null;
 				}
+
+				// Fetch testimonials associated with the user
+				const { data: testimonialData } = await supabase
+					.from("testimonials")
+					.select("img,name,testimonies,services,ratings,title")
+					.eq("id", user.id);
+
+				setClientInfo({
+					id: user.id,
+					email: user.email,
+					name: customerName,
+					phone: phone,
+					profilePicture: pictureUrl,
+					testimonials: testimonialData || null,
+				});
 			} catch (err) {
 				console.error("Unexpected error fetching client info:", err);
 			} finally {
