@@ -34,13 +34,13 @@ export default function Header() {
 				<Link
 					href="/"
 					className="flex items-center gap-2 group">
-					<div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+					<div className="w-10 h-10 rounded-full flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
 						<Image
 							src="/logo.png"
 							alt="KelightElectrical Logo"
 							width={40}
 							height={40}
-							className="w-full object-cover"
+							className="w-full rounded-full object-cover"
 						/>
 					</div>
 					<div className="hidden sm:block">
