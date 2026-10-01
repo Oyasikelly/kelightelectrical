@@ -204,7 +204,7 @@ export default function AboutPage() {
 						className="relative">
 						<div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-xl">
 							<Image
-								src="/assets/slide1.jpg"
+								src="/assets/slide1.png"
 								alt="KelightElectrical team at work"
 								fill
 								className="object-cover"
