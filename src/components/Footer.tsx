@@ -11,6 +11,7 @@ import {
 	FaInstagram,
 	FaWhatsapp,
 	FaBolt,
+	FaTiktok,
 } from "react-icons/fa";
 import NavbarLinks from "@/lib/NavbarLinks";
 import ServicesLib from "@/lib/services";
@@ -31,13 +32,13 @@ export default function Footer() {
 						<Link
 							href="/"
 							className="flex items-center gap-2 mb-4">
-							<div className="w-9 h-9 rounded-lg flex items-center justify-center">
+							<div className="w-9 h-9 rounded-full flex items-center justify-center">
 								<Image
 									src="/logo.png"
 									alt="KelightElectrical Logo"
 									width={32}
 									height={32}
-									className="object-contain"
+									className="object-contain rounded-full"
 								/>
 							</div>
 							<span className="text-white font-bold text-lg">
@@ -52,9 +53,17 @@ export default function Footer() {
 						{/* Social Links */}
 						<div className="flex gap-3">
 							{[
-								{ icon: <FaFacebook />, href: "#", label: "Facebook" },
-								{ icon: <FaTwitter />, href: "#", label: "Twitter" },
-								{ icon: <FaInstagram />, href: "#", label: "Instagram" },
+								// { icon: <FaFacebook />, href: "#", label: "Facebook" },
+								{
+									icon: <FaTiktok />,
+									href: "https://www.tiktok.com/@kelightelectrical",
+									label: "Tiktok",
+								},
+								{
+									icon: <FaInstagram />,
+									href: "https://www.instagram.com/kelightelectrical",
+									label: "Instagram",
+								},
 								{
 									icon: <FaWhatsapp />,
 									href: "https://wa.me/2349068318254",
